@@ -27,7 +27,8 @@ function initUI() {
     document.getElementById("footer-web").href = conf.contact.website;
     document.getElementById("footer-web").innerText = conf.contact.website.replace("https://", "");
 
-    document.getElementById("size-chart-img").src = conf.product.sizeChartImg;
+
+    document.getElementById("size-chart-frame").src = conf.product.sizeChartUrl;
     const featureList = document.getElementById("product-features");
     conf.product.features.forEach(f => featureList.innerHTML += `<li>✨ ${f}</li>`);
 
