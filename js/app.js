@@ -1,9 +1,7 @@
-const conf = window.AppConfig;
+const conf = window.LirrizalConfig;
 let currentSlide = 0;
 let slideInterval;
 let selectedColor = conf.product.colors[0].name;
-let selectedSize = null;
-let cart = []; // জাদুর ঝুড়ি
 
 document.addEventListener("DOMContentLoaded", () => {
     initUI();
@@ -18,35 +16,35 @@ function initUI() {
     document.getElementById("offer-price").innerText = `৳${conf.product.offerPrice}`;
     document.getElementById("regular-price").innerText = `৳${conf.product.regularPrice}`;
     
+    // Footer
     document.getElementById("footer-address").innerText = conf.contact.address;
-    
-    // WhatsApp Button Dynamic Link
-    document.getElementById("wa-link").href = `https://wa.me/88${conf.contact.whatsapp}`;
-    
+    document.getElementById("footer-wa").innerText = conf.contact.whatsapp;
     document.getElementById("footer-fb").href = conf.contact.facebook;
     document.getElementById("footer-web").href = conf.contact.website;
     document.getElementById("footer-web").innerText = conf.contact.website.replace("https://", "");
 
+    // Features & Size Chart
     document.getElementById("size-chart-img").src = conf.product.sizeChartImg;
     const featureList = document.getElementById("product-features");
-    conf.product.features.forEach(f => featureList.innerHTML += `<li>✨ ${f}</li>`);
+    conf.product.features.forEach(f => featureList.innerHTML += `<li>✔ ${f}</li>`);
 
-    // Setup Colors
+    // Setup Gallery & Thumbnails
     const thumbContainer = document.getElementById("color-thumbnails");
     conf.product.colors.forEach((color, index) => {
         thumbContainer.innerHTML += `<img src="${color.img}" class="color-thumb ${index === 0 ? 'active' : ''}" onclick="selectColor(${index})" title="${color.name}">`;
     });
     
     // Setup Sizes
-    const sizeContainer = document.getElementById("size-buttons");
+    const sizeSelect = document.getElementById("size-dropdown");
+    sizeSelect.innerHTML = `<option value="" disabled selected>সাইজ নির্বাচন করুন</option>`;
     conf.product.sizes.forEach((s, i) => {
-        sizeContainer.innerHTML += `<button type="button" class="size-btn" onclick="selectSize(${i})">${s.label}</button>`;
+        sizeSelect.innerHTML += `<option value="${i}">${s.label}</option>`;
     });
 
     updateSlideView();
 }
 
-// Gallery Logic
+// --- Gallery Logic ---
 function updateSlideView() {
     const colorObj = conf.product.colors[currentSlide];
     document.getElementById("main-product-image").src = colorObj.img;
@@ -54,10 +52,10 @@ function updateSlideView() {
 }
 function nextSlide() { currentSlide = (currentSlide + 1) % conf.product.colors.length; updateSlideView(); resetAutoSlide(); }
 function prevSlide() { currentSlide = (currentSlide - 1 + conf.product.colors.length) % conf.product.colors.length; updateSlideView(); resetAutoSlide(); }
-function startAutoSlide() { slideInterval = setInterval(nextSlide, 3500); }
+function startAutoSlide() { slideInterval = setInterval(nextSlide, 3000); }
 function resetAutoSlide() { clearInterval(slideInterval); startAutoSlide(); }
 
-// Selection Logic
+// --- Selection Engine ---
 function selectColor(index) {
     currentSlide = index;
     updateSlideView();
@@ -68,16 +66,18 @@ function selectColor(index) {
     
     selectedColor = conf.product.colors[index].name;
     document.getElementById("selected-color-text").innerText = selectedColor;
+    triggerAddToCartEvent();
 }
 
-function selectSize(index) {
-    selectedSize = conf.product.sizes[index];
-    document.querySelectorAll(".size-btn").forEach(btn => btn.classList.remove("active"));
-    document.querySelectorAll(".size-btn")[index].classList.add("active");
-    
+function updateMeasurements() {
+    const selectedIdx = document.getElementById("size-dropdown").value;
     const display = document.getElementById("measurement-display");
-    display.innerHTML = `📏 লম্বা: ${selectedSize.length} ইঞ্চি &nbsp;|&nbsp; 👕 বডির মাপ: ${selectedSize.chest} ইঞ্চি`;
-    display.style.display = "block";
+    if(selectedIdx !== "") {
+        const sizeObj = conf.product.sizes[selectedIdx];
+        display.innerHTML = `<strong>লম্বা:</strong> ${sizeObj.length} ইঞ্চি | <strong>বুক (Chest):</strong> ${sizeObj.chest} ইঞ্চি`;
+        display.style.display = "block";
+        triggerAddToCartEvent();
+    }
 }
 
 function changeQty(val) {
@@ -85,70 +85,19 @@ function changeQty(val) {
     let newQty = parseInt(input.value) + val;
     if (newQty >= 1) {
         input.value = newQty;
+        calculateTotal();
+        triggerAddToCartEvent();
     }
-}
-
-// Cart Logic
-function addToCart() {
-    if(!selectedSize) return alert("দয়া করে ফতুয়ার একটি সাইজ (বছর) নির্বাচন করুন।");
-    
-    const qty = parseInt(document.getElementById("item-qty").value);
-    const item = {
-        color: selectedColor,
-        size: selectedSize.label,
-        qty: qty,
-        price: conf.product.offerPrice,
-        total: qty * conf.product.offerPrice
-    };
-    
-    cart.push(item);
-    updateCartUI();
-    
-    if(typeof trackAddToCart === "function") trackAddToCart(); // Neuromarketing signal
-    
-    // Reset Qty visually
-    document.getElementById("item-qty").value = 1;
-    alert(`অসাধারণ! ${selectedColor} রঙের ফতুয়াটি কার্টে যোগ হয়েছে। আপনি চাইলে আরও ফতুয়া বাছাই করতে পারেন।`);
-}
-
-function updateCartUI() {
-    const cartSection = document.getElementById("cart-section");
-    const cartList = document.getElementById("cart-items");
-    cartList.innerHTML = "";
-    
-    if(cart.length === 0) {
-        cartSection.style.display = "none";
-    } else {
-        cartSection.style.display = "block";
-        cart.forEach((item, index) => {
-            cartList.innerHTML += `<li class="cart-item">
-                <span>${item.color} (${item.size} বছর) x ${item.qty} টি</span>
-                <span>৳${item.total} <button type="button" class="remove-btn" onclick="removeFromCart(${index})" title="বাদ দিন">X</button></span>
-            </li>`;
-        });
-    }
-    calculateTotal();
-}
-
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCartUI();
 }
 
 function calculateTotal() {
-    let subtotal = 0;
-    if(cart.length > 0) {
-        cart.forEach(item => { subtotal += item.total; });
-    }
+    const qty = parseInt(document.getElementById("item-qty").value);
+    const subtotal = qty * conf.product.offerPrice;
     
     const district = document.getElementById("cust-district").value;
     let delivery = 0;
-    
-    // শুধু কার্টে আইটেম থাকলেই ডেলিভারি চার্জ যোগ হবে
-    if (subtotal > 0) {
-        if(district === "Dhaka") delivery = conf.delivery.insideDhaka;
-        else if(district === "Outside") delivery = conf.delivery.outsideDhaka;
-    }
+    if(district === "Dhaka") delivery = conf.delivery.insideDhaka;
+    else if(district === "Outside") delivery = conf.delivery.outsideDhaka;
 
     const grandTotal = subtotal + delivery;
 
@@ -158,7 +107,12 @@ function calculateTotal() {
     document.getElementById("btn-total").innerText = `৳${grandTotal}`;
 }
 
-// Track Form Scroll (Initiate Checkout)
+// --- Tracking Helpers ---
+function triggerAddToCartEvent() {
+    if(typeof trackAddToCart === "function") trackAddToCart();
+}
+
+// Detect scroll to checkout
 let checkoutTracked = false;
 window.addEventListener('scroll', () => {
     if(!checkoutTracked) {
@@ -170,40 +124,34 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Submit Data
+// --- Form Submission ---
 document.getElementById("checkout-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    if(cart.length === 0) return alert("আপনার ঝুড়িটি তো একদম খালি! দয়া করে আগে কার্টে ফতুয়া যোগ করুন।");
+    const sizeIdx = document.getElementById("size-dropdown").value;
+    if(sizeIdx === "") return alert("দয়া করে একটি সাইজ নির্বাচন করুন।");
 
     const btn = document.getElementById("submit-btn");
-    btn.innerText = "অর্ডার প্রসেস হচ্ছে...";
+    btn.innerText = "প্রসেসিং হচ্ছে...";
     btn.disabled = true;
 
-    let subtotal = 0;
-    let totalQty = 0;
-    let itemsText = "";
-    
-    cart.forEach(item => { 
-        subtotal += item.total; 
-        totalQty += item.qty; 
-        itemsText += `- রঙ: ${item.color}, সাইজ: ${item.size} বছর, পরিমাণ: ${item.qty} টি\n`;
-    });
-
+    const qty = parseInt(document.getElementById("item-qty").value);
+    const subtotal = qty * conf.product.offerPrice;
     const district = document.getElementById("cust-district").value;
-    const delivery = district === "Dhaka" ? conf.delivery.insideDhaka : conf.delivery.outsideDhaka;
+    let delivery = district === "Dhaka" ? conf.delivery.insideDhaka : conf.delivery.outsideDhaka;
+    const sizeObj = conf.product.sizes[sizeIdx];
 
-    const summaryText = `${conf.product.name}\n\nবাছাইকৃত ফতুয়াসমূহ:\n${itemsText}\n------------------\nসাবটোটাল: ৳${subtotal}\nডেলিভারি: ৳${delivery}\nসর্বমোট: ৳${subtotal + delivery}`;
+    const summaryText = `${conf.product.name}\nরঙ: ${selectedColor}\nসাইজ: ${sizeObj.label} (L:${sizeObj.length}, C:${sizeObj.chest})\nপরিমাণ: ${qty}\n------------------\nSubtotal: ৳${subtotal}\nDelivery: ৳${delivery}\nGrand Total: ৳${subtotal + delivery}`;
 
     const payload = {
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString(),
         name: document.getElementById("cust-name").value,
         phone: document.getElementById("cust-phone").value,
-        district: district === "Dhaka" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে",
-        area: "N/A",
+        district: district,
+        area: "N/A", // Area field removed for simplicity, handled in address
         address: document.getElementById("cust-address").value,
-        note: itemsText, // গুগল শিটের Note কলামে কার্টের সব আইটেমের তালিকা যাবে
-        totalQty: totalQty,
+        note: "",
+        totalQty: qty,
         subtotal: subtotal,
         deliveryCharge: delivery,
         grandTotal: subtotal + delivery,
@@ -221,10 +169,10 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
         
         if(typeof trackPurchase === "function") trackPurchase(payload.grandTotal);
         
-        alert("🎉 আলহামদুলিল্লাহ! আপনার সোনামণির জন্য ফতুয়ার অর্ডারটি সফলভাবে প্লেস হয়েছে।");
+        alert("🎉 আলহামদুলিল্লাহ! আপনার অর্ডারটি সফলভাবে প্লেস হয়েছে।");
         window.location.reload();
     } catch (error) {
-        alert("দুঃখিত, কোনো একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
+        alert("দুঃখিত, সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
         btn.innerText = "অর্ডার কনফার্ম করুন";
         btn.disabled = false;
     }
