@@ -57,6 +57,14 @@
                         <button type="button" onclick="changeQty(1)">+</button>
                     </div>
                 </div>
+                
+                <button type="button" class="btn-secondary" onclick="addToCart()">🛒 কার্টে যোগ করুন</button>
+            </div>
+
+            <!-- Cart Section -->
+            <div class="cart-section" id="cart-section" style="display: none;">
+                <h3>আপনার বাছাই করা ফতুয়াগুলো:</h3>
+                <ul id="cart-items" class="cart-items-list"></ul>
             </div>
         </div>
     </section>
@@ -90,7 +98,7 @@
 
     <footer class="site-footer">
         <p id="footer-address"></p>
-        <p>WhatsApp: <span id="footer-wa"></span></p>
+        <p><a id="wa-link" href="" target="_blank" class="whatsapp-btn">💬 সরাসরি হোয়াটসঅ্যাপ-এ যোগাযোগ করুন</a></p>
         <p><a id="footer-fb" href="" target="_blank">Facebook Page</a> | <a id="footer-web" href="" target="_blank">Website</a></p>
     </footer>
 
