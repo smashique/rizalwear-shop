@@ -2,7 +2,7 @@ window.AppConfig = {
     brand: {
         name: "Rizalware",
         tagline: "Mom Voil এর স্নেহের পরশ....💚",
-        logo: "assets/images/logo.webp",
+        logo: "assets/images/rizalwearlogo.png",
         themeColor: "#f4f7f6"
     },
     product: {
