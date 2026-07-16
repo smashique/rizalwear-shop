@@ -1,0 +1,8 @@
+{
+  "name": "Lirrizal",
+  "short_name": "Lirrizal",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f4f7f6"
+}
