@@ -12,11 +12,11 @@ window.AppConfig = {
         offerPrice: 350,
         features: ["100% কটন", "ব্রেথেবল ফেব্রিক"],
         colors: [
-            { name: "Sky Blue", img: "assets/images/IMG_20260715_192303_2.jpg" },
-            { name: "Mint Green", img: "assets/images/IMG_20260715_192345_2.jpg" },
-            { name: "Brown", img: "assets/images/IMG_20260715_192329_2.jpg" },
-            { name: "Off White", img: "assets/images/IMG_20260715_192405_2.jpg" },
-            { name: "Cream", img: "assets/images/IMG_20260715_192431_2.jpg" }
+            { name: "Sky Blue", img: "assets/images/skyblue.jpg" },
+            { name: "Mint Green", img: "assets/images/mintgreen.jpg" },
+            { name: "Brown", img: "assets/images/brown.jpg" },
+            { name: "Off White", img: "assets/images/offwhite.jpg" },
+            { name: "Cream", img: "assets/images/cream.jpg" }
         ],
         sizeChartImg: "assets/images/IMG_20260715_192518_2.jpg",
         sizes: [
