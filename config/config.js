@@ -1,54 +1,46 @@
-window.RizalConfig = {
+window.AppConfig = {
     brand: {
-        name: "Rizalwear",
+        name: "Lirrizal",
         tagline: "Crafted for Comfort",
         logo: "assets/images/logo.webp",
-        favicon: "assets/images/favicon.png",
         themeColor: "#f4f7f6"
     },
     product: {
-        id: "p_001",
-        name: "Kids Premium Summer Fotua",
-        description: "Soft, breathable, and designed for ultimate comfort. Perfect for your little one's active summer days.",
-        regularPrice: 380,
-        offerPrice: 280,
-        sizes: ["4-5Y", "6-7Y", "8-9Y", "10-11Y", "12-13Y"],
-        colors: ["Mint Green", "Baby Blue", "Soft Peach", "Warm Beige"],
-        images: [
-            "assets/images/product-1.webp",
-            "assets/images/product-2.webp",
-            "assets/images/product-3.webp"
+        id: "fotua_001",
+        name: "কিডস প্রিমিয়াম সামার ফতুয়া",
+        regularPrice: 450,
+        offerPrice: 350,
+        features: ["100% কটন", "ব্রেথেবল ফেব্রিক"],
+        colors: [
+            { name: "Sky Blue", img: "assets/images/IMG_20260715_192303_2.jpg" },
+            { name: "Mint Green", img: "assets/images/IMG_20260715_192345_2.jpg" },
+            { name: "Brown", img: "assets/images/IMG_20260715_192329_2.jpg" },
+            { name: "Off White", img: "assets/images/IMG_20260715_192405_2.jpg" },
+            { name: "Cream", img: "assets/images/IMG_20260715_192431_2.jpg" }
         ],
-        fabricDetails: "100% Organic Cotton, Hypoallergenic, Breathable Weave.",
-        exchangePolicy: "3 Days Easy Exchange Policy."
-    },
-    offerEngine: {
-        // Quantity: Price per unit
-        1: 280,
-        2: 280,
-        3: 250, // Special offer for 3
-        default: 250 // For 4 or more, price stays 250 per unit
+        sizeChartImg: "assets/images/IMG_20260715_192518_2.jpg",
+        sizes: [
+            { label: "৩/৪", length: 18, chest: 28 },
+            { label: "৫/৬", length: 20, chest: 30 },
+            { label: "৭/৮", length: 22, chest: 32 },
+            { label: "৯/১০", length: 24, chest: 34 },
+            { label: "১১/১২", length: 26, chest: 36 }
+        ]
     },
     delivery: {
         insideDhaka: 60,
         outsideDhaka: 90
     },
     contact: {
-        phone: "+8801XXXXXXXXX",
-        whatsapp: "8801XXXXXXXXX",
-        facebook: "https://facebook.com/rizalwear",
-        messenger: "https://m.me/rizalwear"
+        address: "৫১৭, উত্তর ইব্রাহিমপুর, মিরপুর ১৪",
+        whatsapp: "01303680618",
+        facebook: "https://facebook.com/lirrizalofficial",
+        website: "https://lirrizal.com"
     },
     tracking: {
-        metaPixelId: "YOUR_PIXEL_ID",
-        ga4Id: "G-XXXXXXXXXX"
+        metaPixelId: "YOUR_PIXEL_ID"
     },
     api: {
         appsScriptUrl: "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
-    },
-    seo: {
-        title: "Rizalwear | Crafted for Comfort - Premium Kids Clothing",
-        description: "Discover premium, breathable, and comfortable summer clothing for kids aged 4-13. Shop Rizalwear today!",
-        ogImage: "assets/images/og-image.jpg"
     }
 };
