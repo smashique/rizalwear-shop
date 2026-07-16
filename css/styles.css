@@ -1,45 +1,74 @@
 :root {
     --primary-color: #2c3e50; 
-    --accent-color: #88c2b7;
-    --bg-color: #f8f9fa;
+    --accent-color: #00796b;
+    --bg-color: #f4f7f6;
     --white: #ffffff;
     --border: #e0e0e0;
 }
 
-body { margin: 0; font-family: sans-serif; background: var(--bg-color); color: var(--primary-color); }
-.hero { text-align: center; padding: 20px; background: var(--white); }
+body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); color: var(--primary-color); line-height: 1.6; }
+.hero { text-align: center; padding: 20px; background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
-/* Gallery */
-.product-showcase { max-width: 900px; margin: 20px auto; padding: 15px; background: var(--white); border-radius: 12px; }
+/* Gallery & Media */
+.product-showcase { max-width: 800px; margin: 20px auto; padding: 15px; background: var(--white); border-radius: 12px; }
 .gallery-container { position: relative; text-align: center; margin-bottom: 20px; }
-.gallery-container img { width: 100%; max-width: 400px; border-radius: 8px; transition: 0.3s; }
-.nav-arrow { position: absolute; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 50%; font-size: 18px; }
-.left-arrow { left: 10px; }
-.right-arrow { right: 10px; }
-.color-label { font-weight: bold; margin-top: 10px; font-size: 1.1rem; color: var(--accent-color); }
-
-/* Features & Size Chart */
-.inline-size-chart { width: 100%; border-radius: 8px; margin: 15px 0; }
-.feature-list { list-style: none; padding: 0; font-weight: bold; color: #27ae60; text-align: center; }
+.gallery-container img { width: 100%; max-width: 500px; border-radius: 8px; transition: opacity 0.3s ease; }
+.nav-arrow { position: absolute; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: white; border: none; padding: 12px 18px; cursor: pointer; border-radius: 50%; font-size: 20px; }
+.left-arrow { left: 5px; }
+.right-arrow { right: 5px; }
+.color-label { font-weight: bold; margin-top: 10px; font-size: 1.2rem; color: var(--accent-color); }
+.inline-size-chart { width: 100%; border-radius: 8px; margin: 15px 0; border: 1px solid var(--border); }
+.feature-list { list-style: none; padding: 0; text-align: center; color: var(--accent-color); font-weight: bold; font-size: 1.1rem; }
 .feature-list li { display: inline-block; margin: 0 10px; }
 
-/* Selection Engine */
-.selection-engine { background: #fdfdfd; padding: 15px; border: 1px solid var(--border); border-radius: 8px; margin-top: 20px; }
-.color-thumbnails { display: flex; gap: 10px; margin-top: 10px; }
-.color-thumb { width: 50px; height: 50px; border-radius: 5px; cursor: pointer; border: 2px solid transparent; object-fit: cover; }
-.color-thumb.active { border-color: var(--accent-color); transform: scale(1.05); }
+/* Pricing */
+.pricing { margin: 10px 0; }
+.offer-price { font-size: 2rem; font-weight: bold; color: #d35400; margin-right: 10px; }
+.regular-price { text-decoration: line-through; color: #7f8c8d; font-size: 1.2rem; }
 
-.size-selection select { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid var(--border); }
-.measurement-display { margin-top: 10px; padding: 10px; background: #eef2f5; border-radius: 5px; font-size: 0.95rem; color: #34495e; display: none; }
+/* Selection Engine (Amazon Style) */
+.selection-engine { background: #fafafa; padding: 20px; border: 1px solid var(--border); border-radius: 8px; margin-top: 20px; }
+.color-thumbnails { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.color-thumb { width: 60px; height: 60px; border-radius: 4px; cursor: pointer; border: 2px solid transparent; object-fit: cover; }
+.color-thumb.active { border-color: #d35400; transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+
+.size-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.size-btn { padding: 10px 15px; border: 1px solid var(--border); background: var(--white); cursor: pointer; border-radius: 4px; font-weight: bold; }
+.size-btn.active { border-color: #d35400; background: #fff3e0; color: #d35400; }
+.measurement-display { margin-top: 15px; padding: 12px; background: #e8f5e9; border-radius: 4px; font-size: 1rem; color: #2e7d32; font-weight: bold; }
 
 .qty-control { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-.qty-control button { padding: 5px 15px; font-size: 1.2rem; cursor: pointer; border: 1px solid var(--border); background: var(--white); }
-.qty-control input { width: 60px; text-align: center; padding: 5px; border: 1px solid var(--border); }
+.qty-control button { padding: 8px 15px; font-size: 1.2rem; cursor: pointer; border: 1px solid var(--border); background: var(--white); border-radius: 4px; }
+.qty-control input { width: 60px; text-align: center; padding: 8px; border: 1px solid var(--border); font-size: 1.1rem; border-radius: 4px; }
 
-/* Order Form & Footer */
-.order-section { max-width: 600px; margin: 20px auto; padding: 20px; background: var(--white); border-radius: 12px; }
-.checkout-form input, .checkout-form select, .checkout-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 5px; box-sizing: border-box; }
-.btn-primary { width: 100%; padding: 15px; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-.sticky-cta { position: sticky; bottom: 10px; z-index: 100; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
-.site-footer { text-align: center; padding: 20px; background: #2c3e50; color: white; margin-top: 40px; font-size: 0.9rem; }
-.site-footer a { color: #88c2b7; text-decoration: none; }
+/* Order Form */
+.order-section { max-width: 600px; margin: 20px auto; padding: 20px; background: var(--white); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.live-cart-summary { background: #fff9c4; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #fbc02d; }
+.summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 1.1rem; }
+.grand-total { font-weight: bold; font-size: 1.3rem; color: #d35400; border-top: 1px solid #fbc02d; padding-top: 8px; }
+
+.checkout-form input, .checkout-form select, .checkout-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 5px; box-sizing: border-box; font-size: 1rem; }
+.btn-primary { width: 100%; padding: 18px; background: #d35400; color: white; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.btn-primary:hover { background: #e67e22; }
+.sticky-cta { position: sticky; bottom: 0; z-index: 100; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); }
+
+.site-footer { text-align: center; padding: 20px; background: var(--primary-color); color: white; margin-top: 40px; font-size: 0.9rem; }
+.site-footer a { color: #4fc3f7; text-decoration: none; }
+
+
+/* ... তোমার আগের সব CSS কোড এখানে থাকবে ... */
+
+/* New Cart Styles */
+.btn-secondary { width: 100%; padding: 15px; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.btn-secondary:hover { background: #004d40; }
+
+.cart-section { background: #fff3e0; padding: 15px; border-radius: 8px; margin-top: 25px; border: 1px dashed #ffcc80; }
+.cart-section h3 { margin-top: 0; font-size: 1.1rem; color: #d35400; }
+.cart-items-list { list-style: none; padding: 0; margin: 0; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 15px; border-radius: 6px; margin-bottom: 8px; border: 1px solid var(--border); font-size: 0.95rem; font-weight: bold; }
+.remove-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-left: 10px; }
+.remove-btn:hover { background: #c0392b; }
+
+/* WhatsApp Button Style */
+.whatsapp-btn { display: inline-block; background: #25D366; color: white !important; padding: 12px 25px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; text-decoration: none; margin: 15px 0; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: 0.3s; }
+.whatsapp-btn:hover { background: #1ebe57; transform: translateY(-2px); }
