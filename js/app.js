@@ -3,6 +3,7 @@ let currentSlide = 0;
 let slideInterval;
 let selectedColor = conf.product.colors[0].name;
 let selectedSize = null;
+let cart = []; // জাদুর ঝুড়ি
 
 document.addEventListener("DOMContentLoaded", () => {
     initUI();
@@ -18,7 +19,10 @@ function initUI() {
     document.getElementById("regular-price").innerText = `৳${conf.product.regularPrice}`;
     
     document.getElementById("footer-address").innerText = conf.contact.address;
-    document.getElementById("footer-wa").innerText = conf.contact.whatsapp;
+    
+    // WhatsApp Button Dynamic Link
+    document.getElementById("wa-link").href = `https://wa.me/88${conf.contact.whatsapp}`;
+    
     document.getElementById("footer-fb").href = conf.contact.facebook;
     document.getElementById("footer-web").href = conf.contact.website;
     document.getElementById("footer-web").innerText = conf.contact.website.replace("https://", "");
@@ -64,7 +68,6 @@ function selectColor(index) {
     
     selectedColor = conf.product.colors[index].name;
     document.getElementById("selected-color-text").innerText = selectedColor;
-    if(typeof trackAddToCart === "function") trackAddToCart(); // Neuromarketing signal
 }
 
 function selectSize(index) {
@@ -75,7 +78,6 @@ function selectSize(index) {
     const display = document.getElementById("measurement-display");
     display.innerHTML = `📏 লম্বা: ${selectedSize.length} ইঞ্চি &nbsp;|&nbsp; 👕 বডির মাপ: ${selectedSize.chest} ইঞ্চি`;
     display.style.display = "block";
-    if(typeof trackAddToCart === "function") trackAddToCart();
 }
 
 function changeQty(val) {
@@ -83,19 +85,70 @@ function changeQty(val) {
     let newQty = parseInt(input.value) + val;
     if (newQty >= 1) {
         input.value = newQty;
-        calculateTotal();
-        if(typeof trackAddToCart === "function") trackAddToCart();
     }
 }
 
-function calculateTotal() {
+// Cart Logic
+function addToCart() {
+    if(!selectedSize) return alert("দয়া করে ফতুয়ার একটি সাইজ (বছর) নির্বাচন করুন।");
+    
     const qty = parseInt(document.getElementById("item-qty").value);
-    const subtotal = qty * conf.product.offerPrice;
+    const item = {
+        color: selectedColor,
+        size: selectedSize.label,
+        qty: qty,
+        price: conf.product.offerPrice,
+        total: qty * conf.product.offerPrice
+    };
+    
+    cart.push(item);
+    updateCartUI();
+    
+    if(typeof trackAddToCart === "function") trackAddToCart(); // Neuromarketing signal
+    
+    // Reset Qty visually
+    document.getElementById("item-qty").value = 1;
+    alert(`অসাধারণ! ${selectedColor} রঙের ফতুয়াটি কার্টে যোগ হয়েছে। আপনি চাইলে আরও ফতুয়া বাছাই করতে পারেন।`);
+}
+
+function updateCartUI() {
+    const cartSection = document.getElementById("cart-section");
+    const cartList = document.getElementById("cart-items");
+    cartList.innerHTML = "";
+    
+    if(cart.length === 0) {
+        cartSection.style.display = "none";
+    } else {
+        cartSection.style.display = "block";
+        cart.forEach((item, index) => {
+            cartList.innerHTML += `<li class="cart-item">
+                <span>${item.color} (${item.size} বছর) x ${item.qty} টি</span>
+                <span>৳${item.total} <button type="button" class="remove-btn" onclick="removeFromCart(${index})" title="বাদ দিন">X</button></span>
+            </li>`;
+        });
+    }
+    calculateTotal();
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+function calculateTotal() {
+    let subtotal = 0;
+    if(cart.length > 0) {
+        cart.forEach(item => { subtotal += item.total; });
+    }
     
     const district = document.getElementById("cust-district").value;
     let delivery = 0;
-    if(district === "Dhaka") delivery = conf.delivery.insideDhaka;
-    else if(district === "Outside") delivery = conf.delivery.outsideDhaka;
+    
+    // শুধু কার্টে আইটেম থাকলেই ডেলিভারি চার্জ যোগ হবে
+    if (subtotal > 0) {
+        if(district === "Dhaka") delivery = conf.delivery.insideDhaka;
+        else if(district === "Outside") delivery = conf.delivery.outsideDhaka;
+    }
 
     const grandTotal = subtotal + delivery;
 
@@ -120,18 +173,26 @@ window.addEventListener('scroll', () => {
 // Submit Data
 document.getElementById("checkout-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    if(!selectedSize) return alert("দয়া করে ফতুয়ার একটি সাইজ (বছর) নির্বাচন করুন।");
+    if(cart.length === 0) return alert("আপনার ঝুড়িটি তো একদম খালি! দয়া করে আগে কার্টে ফতুয়া যোগ করুন।");
 
     const btn = document.getElementById("submit-btn");
     btn.innerText = "অর্ডার প্রসেস হচ্ছে...";
     btn.disabled = true;
 
-    const qty = parseInt(document.getElementById("item-qty").value);
-    const subtotal = qty * conf.product.offerPrice;
+    let subtotal = 0;
+    let totalQty = 0;
+    let itemsText = "";
+    
+    cart.forEach(item => { 
+        subtotal += item.total; 
+        totalQty += item.qty; 
+        itemsText += `- রঙ: ${item.color}, সাইজ: ${item.size} বছর, পরিমাণ: ${item.qty} টি\n`;
+    });
+
     const district = document.getElementById("cust-district").value;
     const delivery = district === "Dhaka" ? conf.delivery.insideDhaka : conf.delivery.outsideDhaka;
 
-    const summaryText = `${conf.product.name}\nরঙ: ${selectedColor}\nসাইজ: ${selectedSize.label} বছর (লম্বা: ${selectedSize.length}, বডি: ${selectedSize.chest})\nপরিমাণ: ${qty}\n------------------\nসাবটোটাল: ৳${subtotal}\nডেলিভারি: ৳${delivery}\nসর্বমোট: ৳${subtotal + delivery}`;
+    const summaryText = `${conf.product.name}\n\nবাছাইকৃত ফতুয়াসমূহ:\n${itemsText}\n------------------\nসাবটোটাল: ৳${subtotal}\nডেলিভারি: ৳${delivery}\nসর্বমোট: ৳${subtotal + delivery}`;
 
     const payload = {
         date: new Date().toLocaleDateString(),
@@ -141,8 +202,8 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
         district: district === "Dhaka" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে",
         area: "N/A",
         address: document.getElementById("cust-address").value,
-        note: "রঙ: " + selectedColor + ", সাইজ: " + selectedSize.label,
-        totalQty: qty,
+        note: itemsText, // গুগল শিটের Note কলামে কার্টের সব আইটেমের তালিকা যাবে
+        totalQty: totalQty,
         subtotal: subtotal,
         deliveryCharge: delivery,
         grandTotal: subtotal + delivery,
