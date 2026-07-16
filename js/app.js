@@ -6,6 +6,9 @@ let selectedSize = null;
 let cart = []; // জাদুর ঝুড়ি
 
 document.addEventListener("DOMContentLoaded", () => {
+    // সাইটে ঢুকলেই যেকোনো একটি র‍্যান্ডম রঙ থেকে স্লাইড শুরু হবে
+    currentSlide = Math.floor(Math.random() * conf.product.colors.length);
+    
     initUI();
     startAutoSlide();
     calculateTotal();
@@ -193,7 +196,16 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
     const district = document.getElementById("cust-district").value;
     const delivery = district === "Dhaka" ? conf.delivery.insideDhaka : conf.delivery.outsideDhaka;
 
-    const summaryText = `${conf.product.name}\n\nবাছাইকৃত ফতুয়াসমূহ:\n${itemsText}\n------------------\nসাবটোটাল: ৳${subtotal}\nডেলিভারি: ৳${delivery}\nসর্বমোট: ৳${subtotal + delivery}`;
+    const custName = document.getElementById("cust-name").value;
+    const custPhone = document.getElementById("cust-phone").value;
+    const custAddress = document.getElementById("cust-address").value;
+
+    const summaryText = `প্রোডাক্ট: ${conf.product.name}
+${itemsText}
+টোটাল বিল: ৳${subtotal + delivery}
+কাস্টমারের নাম: ${custName}
+মোবাইল নাম্বার: ${custPhone}
+ঠিকানা: ${custAddress}`;
 
     const payload = {
         date: new Date().toLocaleDateString(),
@@ -228,5 +240,18 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
         alert("দুঃখিত, কোনো একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
         btn.innerText = "অর্ডার কনফার্ম করুন";
         btn.disabled = false;
+    }
+});
+// PWA Install Button Logic
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const btn = document.getElementById('install-btn');
+    if(btn) {
+        btn.style.display = 'block';
+        btn.addEventListener('click', () => {
+            deferredPrompt.prompt();
+        });
     }
 });
