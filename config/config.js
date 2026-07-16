@@ -1,6 +1,6 @@
 window.AppConfig = {
     brand: {
-        name: "Lirrizal",
+        name: "Rizalware",
         tagline: "Crafted for Comfort",
         logo: "assets/images/logo.webp",
         themeColor: "#f4f7f6"
@@ -34,8 +34,8 @@ window.AppConfig = {
     contact: {
         address: "৫১৭, উত্তর ইব্রাহিমপুর, মিরপুর ১৪",
         whatsapp: "01303680618",
-        facebook: "https://facebook.com/lirrizalofficial",
-        website: "https://lirrizal.com"
+        facebook: "https://facebook.com/rizalwareofficial",
+        website: "https://rizalware.com"
     },
     tracking: {
         metaPixelId: "YOUR_PIXEL_ID"
