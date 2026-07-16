@@ -41,6 +41,6 @@ window.AppConfig = {
         metaPixelId: "YOUR_PIXEL_ID"
     },
     api: {
-        appsScriptUrl: "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
+        appsScriptUrl: "https://script.google.com/macros/s/AKfycbwZnq24Al8OhteogMBL5XfS1xvl0tNzy437bYuV_4mrBEn9yvynRZZ06yFaw1UOjI4KGw/exec"
     }
 };
