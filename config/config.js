@@ -18,7 +18,7 @@ window.AppConfig = {
             { name: "Off White", img: "assets/images/offwhite.jpg" },
             { name: "Cream", img: "assets/images/cream.jpg" }
         ],
-        sizeChartImg: "assets/images/IMG_20260715_192518_2.jpg",
+        sizeChartUrl: "assets/size-chart.html",
         sizes: [
             { label: "৩/৪", length: 18, chest: 28 },
             { label: "৫/৬", length: 20, chest: 30 },
