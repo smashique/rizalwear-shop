@@ -1,0 +1,60 @@
+:root {
+    --primary-color: #88c2b7; /* Soft Mint */
+    --secondary-color: #fcebd5; /* Soft Peach */
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --bg-color: #fbfcfc;
+    --white: #ffffff;
+    --border-radius: 16px;
+    --transition: 0.3s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.6; }
+
+/* Typography & Colors */
+h1, h2, h3 { font-weight: 600; color: var(--text-dark); }
+.announcement-bar { background: var(--primary-color); color: var(--white); text-align: center; padding: 10px; font-size: 14px; font-weight: 500; }
+
+/* Hero Section */
+.hero { text-align: center; padding: 40px 20px; background: var(--white); border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.brand-title { font-size: 2rem; letter-spacing: 1px; margin-bottom: 5px; }
+.brand-tagline { color: var(--text-light); font-style: italic; }
+
+/* Product Showcase */
+.product-showcase { padding: 30px 20px; display: grid; gap: 30px; max-width: 1000px; margin: 0 auto; }
+@media (min-width: 768px) { .product-showcase { grid-template-columns: 1fr 1fr; align-items: center; } }
+.gallery img { width: 100%; border-radius: var(--border-radius); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+/* Pricing */
+.pricing { margin: 15px 0; }
+.offer-price { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); margin-right: 10px; }
+.regular-price { text-decoration: line-through; color: var(--text-light); font-size: 1.2rem; }
+
+/* Order Form */
+.order-section { max-width: 800px; margin: 20px auto; padding: 30px 20px; background: var(--white); border-radius: var(--border-radius); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.cart-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; margin-bottom: 15px; padding: 15px; background: var(--bg-color); border-radius: 10px; align-items: center; }
+@media (max-width: 600px) { .cart-row { grid-template-columns: 1fr; } }
+
+select, input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e0e0e0; border-radius: 8px; background: var(--white); font-size: 1rem; outline: none; transition: var(--transition); }
+select:focus, input:focus, textarea:focus { border-color: var(--primary-color); }
+textarea { resize: vertical; min-height: 80px; }
+
+/* Buttons */
+button { cursor: pointer; border: none; font-size: 1rem; font-weight: 600; border-radius: 8px; transition: var(--transition); }
+.btn-primary { width: 100%; padding: 18px; background: var(--primary-color); color: var(--white); font-size: 1.2rem; margin-top: 20px; box-shadow: 0 8px 20px rgba(136, 194, 183, 0.4); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(136, 194, 183, 0.6); }
+.btn-secondary { padding: 10px 20px; background: var(--secondary-color); color: var(--text-dark); border-radius: 20px; font-size: 0.9rem; }
+.remove-btn { color: #e74c3c; background: none; font-size: 1.5rem; }
+
+/* Live Summary */
+.live-cart-summary { background: #f8fcfb; padding: 20px; border-radius: var(--border-radius); margin: 20px 0; border: 1px dashed var(--primary-color); }
+.summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1.1rem; }
+.grand-total { font-weight: 700; font-size: 1.3rem; border-top: 2px solid #eaeaea; padding-top: 10px; color: var(--primary-color); }
+
+/* Modal & Sticky CTA */
+.sticky-cta { position: sticky; bottom: 10px; z-index: 100; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+.modal-content { background: var(--white); padding: 20px; border-radius: var(--border-radius); max-width: 90%; max-height: 90%; overflow: auto; position: relative; }
+.close { position: absolute; top: 10px; right: 20px; font-size: 2rem; cursor: pointer; }
+.size-chart-trigger { color: var(--primary-color); cursor: pointer; text-decoration: underline; text-align: right; margin-bottom: 10px; font-weight: 600; }
