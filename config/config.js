@@ -1,7 +1,7 @@
 window.AppConfig = {
     brand: {
         name: "Rizalware",
-        tagline: "Mom Voil এর স্নেহের পরশ....💚",
+        tagline: "নরম সূতার কোমল পরশ....💚",
         logo: "assets/images/rizalwearlogo.png",
         themeColor: "#f4f7f6"
     },
@@ -9,8 +9,8 @@ window.AppConfig = {
         id: "fotua_001",
         name: "কিডস প্রিমিয়াম সামার ফতুয়া",
         regularPrice: 450,
-        offerPrice: 350,
-        features: ["Mom Voil, 100% কটন", "আরামদায়ক মিহি সুতি কাপড়"],
+        offerPrice: 280,
+        features: ["Voil Fabric, 100% কটন", "আরামদায়ক মিহি সুতি কাপড়"],
         colors: [
             { name: "Sky Blue", img: "assets/images/skyblue.jpg" },
             { name: "Mint Green", img: "assets/images/mintgreen.jpg" },
