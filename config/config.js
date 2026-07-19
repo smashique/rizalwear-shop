@@ -8,8 +8,8 @@ window.AppConfig = {
     product: {
         id: "fotua_001",
         name: "কিডস প্রিমিয়াম সামার ফতুয়া",
-        regularPrice: 450,
-        offerPrice: 280,
+        regularPrice: 480,
+        offerPrice: 380,
         features: ["Voil Fabric, 100% কটন", "আরামদায়ক মিহি সুতি কাপড়"],
         colors: [
             { name: "Sky Blue", img: "assets/images/skyblue.jpg" },
